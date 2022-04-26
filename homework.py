@@ -97,6 +97,7 @@ class Swimming(Training):
     """Тренировка: плавание."""
     cf_swimming_1 = 1.1
     cf_swimming_2 = 2
+    LEN_STEP = 1.38
     WORKOUT_CODE = 'SWM'
 
     def __init__(self,
