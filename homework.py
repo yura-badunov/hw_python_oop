@@ -1,7 +1,7 @@
 class InfoMessage:
     """Информационное сообщение о тренировке."""
-    def __init__ (self, training_type: str,
-                duration: float,
+    def __init__(self, training_type: str,
+                 duration: float,
                 distance: float,
                 speed: float,
                 calories: float,
@@ -12,7 +12,7 @@ class InfoMessage:
         self.speed = speed
         self.calories = calories
 
-    def get_message(self) -> str: 
+    def get_message(self) -> str:
         return (f'Тип тренировки: {self.training_type}; '
                 f'Длительность: {self.duration:.3f} ч.; '
                 f'Дистанция: {self.distance:.3f} км; '
@@ -48,7 +48,7 @@ class Training:
         """Получить количество затраченных калорий."""
         pass
 
-    def show_training_info(self) -> InfoMessage:  # tut
+    def show_training_info(self) -> InfoMessage:  
         """Вернуть информационное сообщение о выполненной тренировке."""
         info_message = InfoMessage(self.__class__.__name__,
                                    self.duration,
@@ -68,6 +68,7 @@ class Running(Training):
         cal = (self.cf_cal_run_1 * self.get_mean_speed() - self.cf_cal_run_2)
         calories = cal * self.weight / self.M_IN_KM * self.duration * 60
         return calories
+
 
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
