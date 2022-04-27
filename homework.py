@@ -1,5 +1,5 @@
 from dataclasses import asdict, dataclass
-from typing import Dict, Type, ClassVar, List
+from typing import ClassVar, Dict, List, Type
 
 
 @dataclass
@@ -27,6 +27,7 @@ class Training:
     """Базовый класс тренировки."""
     LEN_STEP: ClassVar[float] = 0.65
     M_IN_KM: ClassVar[int] = 1000
+    MIN_IN_HOUR: ClassVar[int] = 60
 
     action: int
     duration: float
@@ -48,7 +49,7 @@ class Training:
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
         info_message = InfoMessage(
-            self.__class__.__name__,
+            type(self).__name__,
             self.duration,
             self.get_distance(),
             self.get_mean_speed(),
@@ -61,13 +62,11 @@ class Running(Training):
     """Тренировка: бег."""
     CF_RUN_1: int = 18
     CF_RUN_2: int = 20
-    CF_RUN_3: int = 60
-    WORKOUT_CODE = 'RUN'
 
     def get_spent_calories(self) -> float:
         cal = (self.CF_RUN_1 * self.get_mean_speed() - self.CF_RUN_2)
         cal_1 = cal * self.weight / self.M_IN_KM * self.duration
-        return cal_1 * self.CF_RUN_3
+        return cal_1 * self.MIN_IN_HOUR
 
 
 class SportsWalking(Training):
@@ -75,8 +74,6 @@ class SportsWalking(Training):
     CF_WLK_1: float = 0.035
     CF_WLK_2: int = 2
     CF_WLK_3: float = 0.029
-    CF_WLK_4: int = 60
-    WORKOUT_CODE: str = 'WLK'
 
     def __init__(self,
                  action: int,
@@ -91,7 +88,7 @@ class SportsWalking(Training):
         cal_1 = self.get_mean_speed()**self.CF_WLK_2 // self.height
         cal_2 = self.CF_WLK_1 * self.weight
         cal_3 = self.CF_WLK_3 * self.weight
-        return (cal_1 * cal_3 + cal_2) * self.duration * self.CF_WLK_4
+        return (cal_1 * cal_3 + cal_2) * self.duration * self.MIN_IN_HOUR
 
 
 class Swimming(Training):
@@ -99,7 +96,6 @@ class Swimming(Training):
     CF_SWIMMING_1: float = 1.1
     CF_SWIMMING_2: int = 2
     LEN_STEP: float = 1.38
-    WORKOUT_CODE: str = 'SWM'
 
     def __init__(self,
                  action: int,
