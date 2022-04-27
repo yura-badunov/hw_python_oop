@@ -11,13 +11,13 @@ class InfoMessage:
     distance: float
     speed: float
     calories: float
-                 
+
     MESSAGE_TEMPLATE: ClassVar[str] = (
         'Тип тренировки: {training_type}; Длительность: {duration:.3f} ч.; '
         'Дистанция: {distance:.3f} км; Ср. скорость: {speed:.3f} км/ч; '
         'Потрачено ккал: {calories:.3f}.'
     )
-    
+
     def get_message(self) -> str:
         return self.MESSAGE_TEMPLATE.format(**asdict(self))
 
@@ -47,14 +47,15 @@ class Training:
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
-        info_message = InfoMessage(self.__class__.__name__,
-                                   self.duration,
-                                   self.get_distance(),
-                                   self.get_mean_speed(),
-                                   self.get_spent_calories(),
+        info_message = InfoMessage(
+            self.__class__.__name__,
+            self.duration,
+            self.get_distance(),
+            self.get_mean_speed(),
+            self.get_spent_calories(),
         )
         return info_message
-            
+
 
 class Running(Training):
     """Тренировка: бег."""
@@ -81,8 +82,7 @@ class SportsWalking(Training):
                  action: int,
                  duration: float,
                  weight: float,
-                 height: float,
-        ) -> None:
+                 height: float) -> None:
         super().__init__(action, duration, weight)
         self.height = height
 
@@ -106,8 +106,7 @@ class Swimming(Training):
                  duration: float,
                  weight: float,
                  length_pool: int,
-                 count_pool: int,
-        ) -> None:
+                 count_pool: int) -> None:
         super().__init__(action, duration, weight)
         self.length_pool = length_pool
         self.count_pool = count_pool
